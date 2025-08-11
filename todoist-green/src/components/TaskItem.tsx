@@ -4,13 +4,14 @@ import { format } from 'date-fns'
 import { FiTrash2, FiCheckCircle, FiCircle } from 'react-icons/fi'
 import { useTasksStore } from '../store/useTasksStore'
 import type { Task } from '../types'
+import { shallow } from 'zustand/shallow'
 
 type Props = {
   task: Task
 }
 
 export function TaskItem({ task }: Props) {
-  const { toggleTask, deleteTask } = useTasksStore((s) => ({ toggleTask: s.toggleTask, deleteTask: s.deleteTask }))
+  const { toggleTask, deleteTask } = useTasksStore((s) => ({ toggleTask: s.toggleTask, deleteTask: s.deleteTask }), shallow)
 
   function handleToggle() {
     if (!task.completed) {
