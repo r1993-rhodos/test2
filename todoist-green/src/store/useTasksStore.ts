@@ -1,5 +1,6 @@
-import { create } from 'zustand'
+import { createStore } from 'zustand/vanilla'
 import { persist } from 'zustand/middleware'
+import { useStore } from 'zustand'
 import { isToday, startOfDay } from 'date-fns'
 import type { Task, Project, View } from '../types'
 
@@ -20,7 +21,7 @@ type State = {
 
 const generateId = () => Math.random().toString(36).slice(2) + Date.now().toString(36)
 
-export const useTasksStore = create<State>()(
+export const tasksStore = createStore<State>()(
   persist(
     (set, _get) => ({
       tasks: [],
@@ -59,8 +60,7 @@ export const useTasksStore = create<State>()(
       deleteProject: (projectId) =>
         set((state) => ({
           projects: state.projects.filter((p) => p.id !== projectId && p.id !== INBOX_ID),
-          tasks: state.tasks
-            .map((t) => (t.projectId === projectId ? { ...t, projectId: INBOX_ID } : t)),
+          tasks: state.tasks.map((t) => (t.projectId === projectId ? { ...t, projectId: INBOX_ID } : t)),
         })),
 
       selectView: (view) => set({ selectedView: view }),
@@ -71,6 +71,10 @@ export const useTasksStore = create<State>()(
     }
   )
 )
+
+export function useTasksStore<T>(selector: (state: State) => T): T {
+  return useStore(tasksStore, selector)
+}
 
 export function getTasksForCurrentView(tasks: Task[], view: View): Task[] {
   const nowStart = startOfDay(new Date())

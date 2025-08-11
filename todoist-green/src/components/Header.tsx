@@ -1,7 +1,8 @@
 import { useTasksStore } from '../store/useTasksStore'
 import { TaskInput } from './TaskInput'
+import type { View, Project } from '../types'
 
-function titleFromView(view: ReturnType<typeof useTasksStore.getState>['selectedView'], projects: ReturnType<typeof useTasksStore.getState>['projects']) {
+function titleFromView(view: View, projects: Project[]) {
   if (view.type === 'inbox') return 'Inbox'
   if (view.type === 'today') return 'Today'
   if (view.type === 'upcoming') return 'Upcoming'
