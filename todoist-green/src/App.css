@@ -14,7 +14,7 @@
   display: grid;
   grid-template-columns: 280px 1fr;
   min-height: 100vh;
-  background: linear-gradient(180deg, var(--bg) 0%, #05120e 100%);
+  background: linear-gradient(180deg, #0a231a 0%, #0a1d17 100%);
   color: var(--text);
 }
 
