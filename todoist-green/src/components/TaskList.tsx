@@ -3,10 +3,10 @@ import { useTasksStore } from '../store/useTasksStore'
 import { getTasksForCurrentView } from '../store/useTasksStore'
 import { TaskItem } from './TaskItem'
 import type { Task } from '../types'
-import { shallow } from 'zustand/shallow'
 
 export function TaskList() {
-  const { tasks, selectedView } = useTasksStore((s) => ({ tasks: s.tasks, selectedView: s.selectedView }), shallow)
+  const tasks = useTasksStore((s) => s.tasks)
+  const selectedView = useTasksStore((s) => s.selectedView)
   const visibleTasks = getTasksForCurrentView(tasks, selectedView)
 
   return (

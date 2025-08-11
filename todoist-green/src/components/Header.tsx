@@ -1,6 +1,5 @@
 import { useTasksStore } from '../store/useTasksStore'
 import { TaskInput } from './TaskInput'
-import { shallow } from 'zustand/shallow'
 
 function titleFromView(view: ReturnType<typeof useTasksStore.getState>['selectedView'], projects: ReturnType<typeof useTasksStore.getState>['projects']) {
   if (view.type === 'inbox') return 'Inbox'
@@ -11,7 +10,8 @@ function titleFromView(view: ReturnType<typeof useTasksStore.getState>['selected
 }
 
 export function Header() {
-  const { selectedView, projects } = useTasksStore((s) => ({ selectedView: s.selectedView, projects: s.projects }), shallow)
+  const selectedView = useTasksStore((s) => s.selectedView)
+  const projects = useTasksStore((s) => s.projects)
   return (
     <header className="header">
       <h1 className="title">{titleFromView(selectedView, projects)}</h1>

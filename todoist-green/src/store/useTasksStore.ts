@@ -65,7 +65,10 @@ export const useTasksStore = create<State>()(
 
       selectView: (view) => set({ selectedView: view }),
     }),
-    { name: 'todoist-green' }
+    {
+      name: 'todoist-green-v1',
+      partialize: (state) => ({ tasks: state.tasks, projects: state.projects, selectedView: state.selectedView }),
+    }
   )
 )
 

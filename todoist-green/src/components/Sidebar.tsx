@@ -2,18 +2,12 @@ import { FiInbox, FiSun, FiCalendar, FiPlus } from 'react-icons/fi'
 import { useState } from 'react'
 import { useTasksStore, INBOX_ID } from '../store/useTasksStore'
 import type { Project } from '../types'
-import { shallow } from 'zustand/shallow'
 
 export function Sidebar() {
-  const { projects, selectedView, selectView, addProject } = useTasksStore(
-    (s) => ({
-      projects: s.projects,
-      selectedView: s.selectedView,
-      selectView: s.selectView,
-      addProject: s.addProject,
-    }),
-    shallow
-  )
+  const projects = useTasksStore((s) => s.projects)
+  const selectedView = useTasksStore((s) => s.selectedView)
+  const selectView = useTasksStore((s) => s.selectView)
+  const addProject = useTasksStore((s) => s.addProject)
 
   const [projectName, setProjectName] = useState('')
 

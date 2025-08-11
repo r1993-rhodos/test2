@@ -2,16 +2,10 @@ import { useState } from 'react'
 import { addDays, format } from 'date-fns'
 import { useTasksStore, INBOX_ID } from '../store/useTasksStore'
 import { FiPlus, FiCalendar } from 'react-icons/fi'
-import { shallow } from 'zustand/shallow'
 
 export function TaskInput() {
-  const { selectedView, addTask } = useTasksStore(
-    (s) => ({
-      selectedView: s.selectedView,
-      addTask: s.addTask,
-    }),
-    shallow
-  )
+  const selectedView = useTasksStore((s) => s.selectedView)
+  const addTask = useTasksStore((s) => s.addTask)
   const [title, setTitle] = useState('')
   const [datePicker, setDatePicker] = useState<string>('')
 
