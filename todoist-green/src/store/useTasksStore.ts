@@ -16,13 +16,15 @@ type State = {
   addProject: (name: string) => void
   deleteProject: (projectId: string) => void
   selectView: (view: View) => void
+  loadDemoData: () => void
+  clearAllData: () => void
 }
 
 const generateId = () => Math.random().toString(36).slice(2) + Date.now().toString(36)
 
 export const useTasksStore = create<State>()(
   persist(
-    (set, _get) => ({
+    (set, get) => ({
       tasks: [],
       projects: [{ id: INBOX_ID, name: 'Inbox' }],
       selectedView: { type: 'inbox' },
@@ -64,8 +66,31 @@ export const useTasksStore = create<State>()(
         })),
 
       selectView: (view) => set({ selectedView: view }),
+
+      loadDemoData: () => {
+        const { demoProjects, demoTasks } = require('../utils/demoData')
+        set({
+          projects: [{ id: INBOX_ID, name: 'Inbox' }, ...demoProjects],
+          tasks: demoTasks
+        })
+      },
+
+      clearAllData: () => set({
+        tasks: [],
+        projects: [{ id: INBOX_ID, name: 'Inbox' }],
+        selectedView: { type: 'inbox' }
+      }),
     }),
-    { name: 'todoist-green' }
+    { 
+      name: 'todoist-green',
+      onRehydrateStorage: () => (state) => {
+        // Load demo data if no tasks exist (first time user)
+        if (state && state.tasks.length === 0) {
+          // Only load demo data if explicitly requested
+          // state.loadDemoData()
+        }
+      }
+    }
   )
 )
 
